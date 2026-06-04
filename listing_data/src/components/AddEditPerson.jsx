@@ -33,27 +33,37 @@ const handleSubmit = async (e) => {
     ? `http://localhost:5000/api/people/${id}`
     : "http://localhost:5000/api/people";
 
-    const response = await fetch(url, {
-    method,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData)
-    });
+    try 
+    {
+      const response = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+      });
 
-    if (response.ok) {
-    Swal.fire({
-        title: id ? "Updated Successfully!" : "Added Successfully!",
-        icon: "success",
-        confirmButtonColor: "#28a745",
-        timer: 2000
-    });
-    navigate("/");
-    } else {
-    Swal.fire({
-        title: "Error!",
-        text: "Something went wrong. Please try again.",
+      if (response.ok) {
+      Swal.fire({
+          title: id ? "Updated Successfully!" : "Added Successfully!",
+          icon: "success",
+          confirmButtonColor: "#28a745",
+          timer: 2000
+      });
+      navigate("/");
+      } else {
+      Swal.fire({
+          title: "Error!",
+          text: "Something went wrong. Please try again.",
+          icon: "error",
+          confirmButtonColor: "#dc3545"
+      });
+      }
+    } catch (error) {
+      Swal.fire({
+        title:"Network Error",
+        text: error.message || "Unable to connect the server!",
         icon: "error",
         confirmButtonColor: "#dc3545"
-    });
+      })
     }
 };
 
